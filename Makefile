@@ -9,7 +9,9 @@ GOOS ?= $(shell go env GOOS)
 GOARCH ?= $(shell go env GOARCH)
 
 HUB ?= docker.io/querycap
+
 DOCKERX_NAME ?= $(NAME)
+DOCKERX_TAGS ?= $(VERSION)
 
 up:
 	go run .
