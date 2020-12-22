@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -15,10 +16,23 @@ import (
 )
 
 var goprivate = os.Getenv("GOPRIVATE")
+var proxiedsumdbs = os.Getenv("PROXIEDSUMDBS")
 
 func main() {
 	g := goproxy.New()
+
 	g.Cacher = &cacher.Disk{Root: "/data"}
+
+	g.ProxiedSUMDBs = func(rules []string) (finalRules []string) {
+		for i := range rules {
+			v := strings.TrimSpace(rules[i])
+			if v != "" {
+				finalRules = append(finalRules, v)
+			}
+		}
+		return
+	}(strings.Split(proxiedsumdbs, ";"))
+
 	l := klogr.New()
 
 	s := &http.Server{}
