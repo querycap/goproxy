@@ -5,4 +5,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.0.1](https://github.com/querycap/goproxy/compare/v0.0.0...v0.0.1)
+
+
 # 0.0.0
