@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.0.3](https://github.com/querycap/goproxy/compare/v0.0.2...v0.0.3)
+
+### Bug Fixes
+
+* **fix** cache folder fix ([b2016b2](https://github.com/querycap/goproxy/commit/b2016b20800657a6989dc3bc6435adfd08ebbf88))
+
+
+
 # [0.0.2](https://github.com/querycap/goproxy/compare/v0.0.1...v0.0.2)
 
 ### Bug Fixes
