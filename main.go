@@ -18,15 +18,13 @@ var goprivate = os.Getenv("GOPRIVATE")
 
 func main() {
 	g := goproxy.New()
-	g.Cacher = &cacher.Disk{Root: "/tmp/data"}
+	g.Cacher = &cacher.Disk{Root: "/data"}
 	l := klogr.New()
 
 	s := &http.Server{}
 	s.Handler = http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 
 		if len(req.URL.Path) > 0 {
-			l.Info(req.RequestURI[1:])
-
 			if goprivate != "" && module.MatchPrefixPatterns(goprivate, req.RequestURI[1:]) {
 				rw.WriteHeader(http.StatusNotFound)
 				_, _ = rw.Write(nil)
