@@ -5,6 +5,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
+# [0.0.4](https://github.com/querycap/goproxy/compare/v0.0.3...v0.0.4)
+
+### Bug Fixes
+
+* **fix** added PROXIEDSUMDBS ([fdd392a](https://github.com/querycap/goproxy/commit/fdd392a799c695d78856ace749052e8180bb7818))
+
+
+
 # [0.0.3](https://github.com/querycap/goproxy/compare/v0.0.2...v0.0.3)
 
 ### Bug Fixes
