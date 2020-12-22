@@ -2,36 +2,41 @@ package main
 
 import (
 	"context"
-	"github.com/goproxy/goproxy"
-	"github.com/goproxy/goproxy/cacher"
-	"golang.org/x/mod/module"
-	"k8s.io/klog/v2/klogr"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/goproxy/goproxy"
+	"github.com/goproxy/goproxy/cacher"
+	"golang.org/x/mod/module"
+	"k8s.io/klog/v2/klogr"
 )
 
 var goprivate = os.Getenv("GOPRIVATE")
 
 func main() {
 	g := goproxy.New()
-	g.Cacher = &cacher.Disk{Root: "/data"}
+	g.Cacher = &cacher.Disk{Root: "/tmp/data"}
+	l := klogr.New()
 
 	s := &http.Server{}
 	s.Handler = http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		if goprivate != "" && len(req.URL.Path) > 0 && module.MatchPrefixPatterns(goprivate, req.URL.Path[1:]) {
-			rw.WriteHeader(http.StatusNotFound)
-			_, _ = rw.Write(nil)
-			return
+
+		if len(req.URL.Path) > 0 {
+			l.Info(req.RequestURI[1:])
+
+			if goprivate != "" && module.MatchPrefixPatterns(goprivate, req.RequestURI[1:]) {
+				rw.WriteHeader(http.StatusNotFound)
+				_, _ = rw.Write(nil)
+				return
+			}
 		}
 
 		g.ServeHTTP(rw, req)
 	})
 	s.Addr = "0.0.0.0:80"
-
-	l := klogr.New()
 
 	go func() {
 		l.Info("serve on", "addr", s.Addr)
