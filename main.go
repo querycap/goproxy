@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/goproxy/goproxy"
-	"github.com/goproxy/goproxy/cacher"
 	"golang.org/x/mod/module"
 	"k8s.io/klog/v2/klogr"
 )
@@ -19,9 +18,9 @@ var goprivate = os.Getenv("GOPRIVATE")
 var proxiedsumdbs = os.Getenv("PROXIEDSUMDBS")
 
 func main() {
-	g := goproxy.New()
+	g := &goproxy.Goproxy{}
 
-	g.Cacher = &cacher.Disk{Root: "/data"}
+	g.Cacher = goproxy.DirCacher("/data")
 
 	g.ProxiedSUMDBs = func(rules []string) (finalRules []string) {
 		for i := range rules {
